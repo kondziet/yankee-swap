@@ -1,3 +1,7 @@
 package pl.kondziet.springbackend.application.service.dto
 
-data class ConstraintRequest()
+import pl.kondziet.springbackend.model.Constraint
+
+data class ConstraintRequest(val user: UserRequest, val excludedNeighbors: List<UserRequest>) {
+    fun toConstraint() = Constraint(user = user.toUser(), excludedNeighbors = excludedNeighbors.map { it.toUser() })
+}
