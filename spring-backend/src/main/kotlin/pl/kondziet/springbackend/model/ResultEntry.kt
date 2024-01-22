@@ -1,4 +1,3 @@
 package pl.kondziet.springbackend.model
 
-class ResultEntry {
-}
+data class ResultEntry(val drawer: User, val receiver: User)

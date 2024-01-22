@@ -1,3 +1,3 @@
 package pl.kondziet.springbackend.model
 
-data class Draw()
+data class Draw(val results: List<ResultEntry>)
