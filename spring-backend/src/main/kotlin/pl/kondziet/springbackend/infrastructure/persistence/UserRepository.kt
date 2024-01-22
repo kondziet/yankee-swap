@@ -1,4 +1,4 @@
-package pl.kondziet.springbackend
+package pl.kondziet.springbackend.infrastructure.persistence
 
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
