@@ -13,10 +13,10 @@ data class Group(
     val constraints: List<Constraint>? = null,
     val draws: List<Draw>? = null
 ) {
-    fun toGraph(): Graph<User> {
-        return Graph.createGraph(
+    fun toGraph(): CompleteGraph<User> {
+        return CompleteGraph.withoutExcludedNeighbors(
             nodes = members,
-            constraints = constraints?.associate { it.user to it.excludedNeighbors } ?: emptyMap()
+            excludedNeighbors = constraints?.associate { it.user to it.excludedUsers } ?: emptyMap()
         )
     }
 }

@@ -1,9 +1,9 @@
 package pl.kondziet.springbackend.model
 
-class Graph<T> private constructor(private val nodes: Map<T, MutableList<T>>) {
+class CompleteGraph<T> private constructor(private val adjacency: Map<T, MutableList<T>>) {
 
     companion object {
-        fun <T> createGraph(nodes: List<T>, constraints: Map<T, List<T>>): Graph<T> {
+        fun <T> of(nodes: List<T>): CompleteGraph<T> {
             val builder = Builder<T>()
 
             nodes.forEach { node ->
@@ -11,7 +11,22 @@ class Graph<T> private constructor(private val nodes: Map<T, MutableList<T>>) {
 
                 val neighbors = nodes.toMutableList()
                 neighbors.remove(node)
-                neighbors.removeAll(constraints[node] ?: emptyList())
+
+                builder.connect(node, neighbors)
+            }
+
+            return builder.build()
+        }
+
+        fun <T> withoutExcludedNeighbors(nodes: List<T>, excludedNeighbors: Map<T, List<T>>): CompleteGraph<T> {
+            val builder = Builder<T>()
+
+            nodes.forEach { node ->
+                builder.add(node)
+
+                val neighbors = nodes.toMutableList()
+                neighbors.remove(node)
+                neighbors.removeAll(excludedNeighbors[node] ?: emptyList())
 
                 builder.connect(node, neighbors)
             }
@@ -33,13 +48,13 @@ class Graph<T> private constructor(private val nodes: Map<T, MutableList<T>>) {
             return this
         }
 
-        fun build(): Graph<T> {
-            return Graph(nodes)
+        fun build(): CompleteGraph<T> {
+            return CompleteGraph(nodes)
         }
     }
 
     fun findRandomCycle(): List<T> {
-        val randomNode = nodes.keys.random()
+        val randomNode = adjacency.keys.random()
         return findSingularHamiltonianCycle(randomNode, randomNode, mutableListOf()) ?: emptyList()
     }
 
@@ -50,8 +65,8 @@ class Graph<T> private constructor(private val nodes: Map<T, MutableList<T>>) {
     ): List<T>? {
         cycle.add(current)
 
-        for (neighbor in nodes[current] ?: emptyList()) {
-            if (neighbor == start && cycle.size == nodes.size) {
+        for (neighbor in adjacency[current] ?: emptyList()) {
+            if (neighbor == start && cycle.size == adjacency.size) {
                 return cycle + neighbor
             }
 
@@ -72,7 +87,7 @@ class Graph<T> private constructor(private val nodes: Map<T, MutableList<T>>) {
         val stringBuilder = StringBuilder()
         stringBuilder.append("GraphNode:\n")
 
-        for ((node, neighbors) in nodes) {
+        for ((node, neighbors) in adjacency) {
             stringBuilder.append("$node is connected to: $neighbors\n")
         }
 
