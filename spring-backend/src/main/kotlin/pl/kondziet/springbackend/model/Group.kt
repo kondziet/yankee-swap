@@ -15,7 +15,7 @@ data class Group(
 ) {
     fun toGraph(): CompleteGraph<User> {
         return CompleteGraph
-            .of(nodes = members)
+            .of(members)
             .excludeNeighbors(
                 constraints?.associate { it.user to it.excludedUsers } ?: emptyMap()
             )
