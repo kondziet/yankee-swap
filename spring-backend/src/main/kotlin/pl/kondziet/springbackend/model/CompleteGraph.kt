@@ -3,53 +3,35 @@ package pl.kondziet.springbackend.model
 class CompleteGraph<T> private constructor(private val adjacency: Map<T, MutableList<T>>) {
 
     companion object {
-        fun <T> of(nodes: List<T>): CompleteGraph<T> {
-            val builder = Builder<T>()
-
-            nodes.forEach { node ->
-                builder.add(node)
-
-                val neighbors = nodes.toMutableList()
-                neighbors.remove(node)
-
-                builder.connect(node, neighbors)
-            }
-
-            return builder.build()
-        }
-
-        fun <T> withoutExcludedNeighbors(nodes: List<T>, excludedNeighbors: Map<T, List<T>>): CompleteGraph<T> {
-            val builder = Builder<T>()
-
-            nodes.forEach { node ->
-                builder.add(node)
-
-                val neighbors = nodes.toMutableList()
-                neighbors.remove(node)
-                neighbors.removeAll(excludedNeighbors[node] ?: emptyList())
-
-                builder.connect(node, neighbors)
-            }
-
-            return builder.build()
+        fun <T> of(nodes: List<T>): Builder<T> {
+            return Builder(nodes)
         }
     }
 
-    class Builder<T> {
-        private val nodes: MutableMap<T, MutableList<T>> = mutableMapOf()
+    class Builder<T>(private val nodes: List<T>) {
+        private val adjacency = mutableMapOf<T, MutableList<T>>()
+        init {
+            nodes.forEach {
+                adjacency[it] = (nodes - it).toMutableList()
+            }
+        }
 
-        fun add(node: T): Builder<T> {
-            nodes[node] = mutableListOf()
+        fun excludeNeighbors(constraints: Map<T, List<T>>): Builder<T> {
+            constraints.forEach { (node, neighborsToExclude) ->
+                adjacency[node]?.removeAll(neighborsToExclude)
+            }
             return this
         }
 
-        fun connect(node: T, neighbors: List<T>): Builder<T> {
-            nodes[node]?.addAll(neighbors)
+        fun shuffleNeighbors(): Builder<T> {
+            adjacency.forEach { (_, neighbors) ->
+                neighbors.shuffle()
+            }
             return this
         }
 
         fun build(): CompleteGraph<T> {
-            return CompleteGraph(nodes)
+            return CompleteGraph(adjacency)
         }
     }
 

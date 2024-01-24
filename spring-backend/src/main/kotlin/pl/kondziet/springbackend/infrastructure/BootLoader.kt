@@ -25,7 +25,6 @@ class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunn
                 ),
                 constraints = listOf(
                     Constraint(User("Alice"), listOf(User("Bob"), User("Eric"))),
-                    Constraint(User("Bob"), listOf(User("Alice"))),
                     Constraint(User("Eric"), listOf(User("Alice")))
                 ),
                 draws = listOf(
@@ -34,16 +33,17 @@ class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunn
             )
         )
 
-        val graph: CompleteGraph<String> = CompleteGraph.withoutExcludedNeighbors(
-            listOf(
-                "Alice", "Bob", "Eric", "David", "Carol"
-            ),
-            mapOf(
-                "Alice" to listOf("Bob", "Eric"),
-                "Bob" to listOf("Alice"),
-                "Eric" to listOf("Alice")
-            )
+        val graph: CompleteGraph<String> = CompleteGraph.of(
+            nodes = listOf("Alice", "Bob", "Eric", "David", "Carol")
         )
+            .excludeNeighbors(
+                mapOf(
+                    "Alice" to listOf("Bob", "Eric"),
+                    "Eric" to listOf("Alice")
+                )
+            )
+            .shuffleNeighbors()
+            .build()
 
         val cycle = graph.findRandomCycle()
         println(cycle)
