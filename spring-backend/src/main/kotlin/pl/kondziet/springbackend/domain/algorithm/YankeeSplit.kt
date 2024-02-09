@@ -2,10 +2,11 @@ package pl.kondziet.springbackend.domain.algorithm
 
 class YankeeSplit<T> {
 
-    fun split(cycle: List<T>, users: List<T>): List<List<T>>? {
-        if (users.isEmpty() || cycle.isEmpty()) {
-            return null
-        }
+    fun split(cycle: List<T>, users: List<T>): List<List<T>> {
+        require(cycle.isNotEmpty()) { "Cycle cannot be empty" }
+        require(users.isNotEmpty()) { "Users cannot be empty" }
+        require(cycle.size >= 3) { "Cycle cannot be shorter than 3" }
+        require(cycle.size >= users.size) { "Cycle cannot be shorter than users" }
 
         val results = mutableListOf<MutableList<T>>()
         val indices = users.map { cycle.indexOf(it) }.sorted()
