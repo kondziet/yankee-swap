@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.spring") version "1.9.22"
+    id("groovy")
 }
 
 group = "pl.kondziet"
@@ -24,6 +25,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.spockframework:spock-spring:2.2-M1-groovy-3.0")
+    testImplementation("org.spockframework:spock-core:2.2-M1-groovy-3.0")
 }
 
 tasks.withType<KotlinCompile> {
