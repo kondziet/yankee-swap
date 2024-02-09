@@ -1,9 +1,11 @@
 package pl.kondziet.springbackend.model
 
-class CompleteGraph<T> private constructor(private val adjacency: Map<T, MutableList<T>>) {
+import CycleFindingStrategy
+
+class Graph<T> private constructor(private val adjacency: Map<T, MutableList<T>>) {
 
     companion object {
-        fun <T> of(nodes: List<T>): Builder<T> {
+        fun <T> completeOf(nodes: List<T>): Builder<T> {
             return Builder(nodes)
         }
     }
@@ -30,39 +32,13 @@ class CompleteGraph<T> private constructor(private val adjacency: Map<T, Mutable
             return this
         }
 
-        fun build(): CompleteGraph<T> {
-            return CompleteGraph(adjacency)
+        fun build(): Graph<T> {
+            return Graph(adjacency)
         }
     }
 
-    fun findRandomCycle(): List<T> {
-        val randomNode = adjacency.keys.random()
-        return findSingularHamiltonianCycle(randomNode, randomNode, mutableListOf()) ?: emptyList()
-    }
-
-    private fun findSingularHamiltonianCycle(
-        start: T,
-        current: T,
-        cycle: MutableList<T>
-    ): List<T>? {
-        cycle.add(current)
-
-        for (neighbor in adjacency[current] ?: emptyList()) {
-            if (neighbor == start && cycle.size == adjacency.size) {
-                return cycle + neighbor
-            }
-
-            if (neighbor !in cycle) {
-                val result = findSingularHamiltonianCycle(start, neighbor, cycle)
-                if (result != null) {
-                    return result
-                }
-            }
-        }
-
-        cycle.removeAt(cycle.lastIndex)
-
-        return null
+    fun findCycles(cycleFindingStrategy: CycleFindingStrategy<T>, randomStartNode: Boolean = false): List<List<T>> {
+        return cycleFindingStrategy.findCycles(adjacency, randomStartNode)
     }
 
     override fun toString(): String {

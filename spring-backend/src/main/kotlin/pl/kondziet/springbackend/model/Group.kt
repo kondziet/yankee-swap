@@ -13,9 +13,9 @@ data class Group(
     val constraints: List<Constraint>? = null,
     val draws: List<Draw>? = null
 ) {
-    fun toGraph(): CompleteGraph<User> {
-        return CompleteGraph
-            .of(members)
+    fun toGraph(): Graph<User> {
+        return Graph
+            .completeOf(members)
             .excludeNeighbors(
                 constraints?.associate { it.user to it.excludedUsers } ?: emptyMap()
             )
