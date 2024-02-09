@@ -1,3 +1,5 @@
+package pl.kondziet.springbackend.domain.algorithm
+
 import kotlin.random.Random
 
 class SingleRegularDrawStrategy<T> : CycleFindingStrategy<T> {

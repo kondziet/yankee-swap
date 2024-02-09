@@ -1,3 +1,5 @@
+package pl.kondziet.springbackend.domain.algorithm
+
 import java.util.Collections
 
 class SingleYankeeDrawStrategy<T>(private val cycles: List<List<T>>) : CycleFindingStrategy<T> {

@@ -1,6 +1,6 @@
 package pl.kondziet.springbackend.application.service.dto
 
-import pl.kondziet.springbackend.model.Group
+import pl.kondziet.springbackend.domain.model.Group
 
 data class GroupRequest(
     val name: String,

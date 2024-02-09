@@ -1,6 +1,4 @@
-package pl.kondziet.springbackend.model
-
-import CycleFindingStrategy
+package pl.kondziet.springbackend.domain.algorithm
 
 class Graph<T> private constructor(private val adjacency: Map<T, MutableList<T>>) {
 

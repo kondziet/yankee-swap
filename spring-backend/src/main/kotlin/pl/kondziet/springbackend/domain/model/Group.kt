@@ -1,7 +1,8 @@
-package pl.kondziet.springbackend.model
+package pl.kondziet.springbackend.domain.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import pl.kondziet.springbackend.domain.algorithm.Graph
 
 @Document
 data class Group(
@@ -14,8 +15,7 @@ data class Group(
     val draws: List<Draw>? = null
 ) {
     fun toGraph(): Graph<User> {
-        return Graph
-            .completeOf(members)
+        return Graph.completeOf(members)
             .excludeNeighbors(
                 constraints?.associate { it.user to it.excludedUsers } ?: emptyMap()
             )

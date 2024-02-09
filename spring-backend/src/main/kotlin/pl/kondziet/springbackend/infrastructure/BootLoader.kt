@@ -1,20 +1,21 @@
 package pl.kondziet.springbackend.infrastructure
 
-import SingleRegularDrawStrategy
+import pl.kondziet.springbackend.domain.algorithm.SingleRegularDrawStrategy
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import pl.kondziet.springbackend.infrastructure.persistence.GroupRepository
-import pl.kondziet.springbackend.model.Constraint
-import pl.kondziet.springbackend.model.Draw
-import pl.kondziet.springbackend.model.Graph
-import pl.kondziet.springbackend.model.User
+import pl.kondziet.springbackend.domain.model.Constraint
+import pl.kondziet.springbackend.domain.model.Draw
+import pl.kondziet.springbackend.domain.algorithm.Graph
+import pl.kondziet.springbackend.domain.model.Group
+import pl.kondziet.springbackend.domain.model.User
 
 @Component
 class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
         groupRepository.save(
-            pl.kondziet.springbackend.model.Group(
+            Group(
                 name = "Test group",
                 description = "Test group description",
                 members = listOf(

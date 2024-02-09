@@ -1,3 +1,5 @@
+package pl.kondziet.springbackend.domain.algorithm
+
 class YankeeSplit<T> {
 
     fun split(cycle: List<T>, users: List<T>): List<List<T>>? {

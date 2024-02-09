@@ -1,13 +1,13 @@
 package pl.kondziet.springbackend.application.service
 
-import SingleRegularDrawStrategy
+import pl.kondziet.springbackend.domain.algorithm.SingleRegularDrawStrategy
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import pl.kondziet.springbackend.application.service.dto.GroupRequest
 import pl.kondziet.springbackend.infrastructure.persistence.GroupRepository
-import pl.kondziet.springbackend.model.Draw
-import pl.kondziet.springbackend.model.ResultEntry
-import pl.kondziet.springbackend.model.User
+import pl.kondziet.springbackend.domain.model.Draw
+import pl.kondziet.springbackend.domain.model.ResultEntry
+import pl.kondziet.springbackend.domain.model.User
 
 @Service
 class GroupService(val groupRepository: GroupRepository) {
