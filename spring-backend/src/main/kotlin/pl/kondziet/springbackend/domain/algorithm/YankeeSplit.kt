@@ -6,7 +6,11 @@ class YankeeSplit<T> {
         require(cycle.isNotEmpty()) { "Cycle cannot be empty" }
         require(users.isNotEmpty()) { "Users cannot be empty" }
         require(cycle.size >= 3) { "Cycle cannot be shorter than 3" }
-        require(cycle.size >= users.size) { "Cycle cannot be shorter than users" }
+        require(cycle.size > users.size) { "Cycle cannot be shorter than users" }
+        require(cycle.first() == cycle.last()) { "Cycle must be a cycle" }
+        require(cycle.subList(0, cycle.size - 1).size == cycle.distinct().size) { "Cycle cannot contain duplicates" }
+        require(users.distinct().size == users.size) { "Users cannot contain duplicates" }
+        require(cycle.distinct().containsAll(users)) { "Cycle have to contain all users" }
 
         val results = mutableListOf<MutableList<T>>()
         val indices = users.map { cycle.indexOf(it) }.sorted()
