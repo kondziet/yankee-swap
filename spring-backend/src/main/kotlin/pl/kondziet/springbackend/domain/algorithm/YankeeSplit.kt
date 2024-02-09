@@ -13,7 +13,7 @@ class YankeeSplit<T> {
         require(cycle.distinct().containsAll(users)) { "Cycle have to contain all users" }
 
         val results = mutableListOf<MutableList<T>>()
-        val indices = users.map { cycle.indexOf(it) }.sorted()
+        val indices = getUsersIndices(cycle, users)
 
         var start = 0
         for (index in indices) {
@@ -22,6 +22,12 @@ class YankeeSplit<T> {
         }
         results.add(cycle.subList(start, cycle.size).toMutableList())
 
+        handleLastElement(results)
+
+        return results
+    }
+
+    private fun handleLastElement(results: MutableList<MutableList<T>>) {
         val last = results.last()
         if (last.size > 1) {
             last.removeAt(last.lastIndex)
@@ -30,7 +36,9 @@ class YankeeSplit<T> {
         } else {
             results.removeAt(results.lastIndex)
         }
+    }
 
-        return results
+    private fun getUsersIndices(cycle: List<T>, users: List<T>): List<Int> {
+        return users.map { cycle.indexOf(it) }.sorted()
     }
 }
