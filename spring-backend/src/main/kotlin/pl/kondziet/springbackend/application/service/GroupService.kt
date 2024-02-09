@@ -1,5 +1,6 @@
 package pl.kondziet.springbackend.application.service
 
+import SingleRegularDrawStrategy
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import pl.kondziet.springbackend.application.service.dto.GroupRequest
@@ -26,7 +27,7 @@ class GroupService(val groupRepository: GroupRepository) {
     fun calculateDraw(groupId: String): List<User> {
         val group = groupRepository.findByIdOrNull(groupId) ?: throw IllegalArgumentException("Group not found")
         val graph = group.toGraph()
-        return graph.findRandomCycle()
+        return graph.findCycles(SingleRegularDrawStrategy(), randomStartNode = true).first()
     }
 
     private fun generateResultEntries(firstDraw: List<User>): List<ResultEntry> {

@@ -1,11 +1,12 @@
 package pl.kondziet.springbackend.infrastructure
 
+import SingleRegularDrawStrategy
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import pl.kondziet.springbackend.infrastructure.persistence.GroupRepository
-import pl.kondziet.springbackend.model.CompleteGraph
 import pl.kondziet.springbackend.model.Constraint
 import pl.kondziet.springbackend.model.Draw
+import pl.kondziet.springbackend.model.Graph
 import pl.kondziet.springbackend.model.User
 
 @Component
@@ -33,7 +34,7 @@ class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunn
             )
         )
 
-        val graph: CompleteGraph<String> = CompleteGraph.of(
+        val graph: Graph<String> = Graph.completeOf(
             nodes = listOf("Alice", "Bob", "Eric", "David", "Carol")
         )
             .excludeNeighbors(
@@ -45,7 +46,7 @@ class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunn
             .shuffleNeighbors()
             .build()
 
-        val cycle = graph.findRandomCycle()
+        val cycle = graph.findCycles(SingleRegularDrawStrategy(), randomStartNode = true).first()
         println(cycle)
 
         println(graph)
