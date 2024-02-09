@@ -3,14 +3,7 @@ package pl.kondziet.springbackend.domain.algorithm
 class YankeeSplit<T> {
 
     fun split(cycle: List<T>, users: List<T>): List<List<T>> {
-        require(cycle.isNotEmpty()) { "Cycle cannot be empty" }
-        require(users.isNotEmpty()) { "Users cannot be empty" }
-        require(cycle.size >= 3) { "Cycle cannot be shorter than 3" }
-        require(cycle.size > users.size) { "Cycle cannot be shorter than users" }
-        require(cycle.first() == cycle.last()) { "Cycle must be a cycle" }
-        require(cycle.subList(0, cycle.size - 1).size == cycle.distinct().size) { "Cycle cannot contain duplicates" }
-        require(users.distinct().size == users.size) { "Users cannot contain duplicates" }
-        require(cycle.distinct().containsAll(users)) { "Cycle have to contain all users" }
+        validateArguments(cycle, users)
 
         val results = mutableListOf<MutableList<T>>()
         val indices = getUsersIndices(cycle, users)
@@ -40,5 +33,16 @@ class YankeeSplit<T> {
 
     private fun getUsersIndices(cycle: List<T>, users: List<T>): List<Int> {
         return users.map { cycle.indexOf(it) }.sorted()
+    }
+
+    private fun validateArguments(cycle: List<T>, users: List<T>) {
+        require(cycle.isNotEmpty()) { "Cycle cannot be empty" }
+        require(users.isNotEmpty()) { "Users cannot be empty" }
+        require(cycle.size >= 3) { "Cycle cannot be shorter than 3" }
+        require(cycle.size > users.size) { "Cycle cannot be shorter than users" }
+        require(cycle.first() == cycle.last()) { "Cycle must be a cycle" }
+        require(cycle.subList(0, cycle.size - 1).size == cycle.distinct().size) { "Cycle cannot contain duplicates" }
+        require(users.distinct().size == users.size) { "Users cannot contain duplicates" }
+        require(cycle.distinct().containsAll(users)) { "Cycle have to contain all users" }
     }
 }
