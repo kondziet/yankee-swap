@@ -29,6 +29,7 @@ class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunn
                     Constraint(User("Alice"), listOf(User("Bob"), User("Eric"))),
                     Constraint(User("Eric"), listOf(User("Alice")))
                 ),
+                allowMutualDrawing = false,
                 draws = listOf(
                     Draw(results = listOf())
                 )
