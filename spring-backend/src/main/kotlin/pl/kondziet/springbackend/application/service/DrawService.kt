@@ -11,6 +11,9 @@ class DrawService {
 
     fun calculateDraws(graph: Graph<User>, drawStrategy: CycleFindingStrategy<User>): List<ResultEntry> {
         val cycles = graph.findCycles(drawStrategy, true)
+        if (cycles.isEmpty()) {
+            throw IllegalStateException("No cycles found in the graph")
+        }
 
         return generateResultEntries(cycles)
     }
