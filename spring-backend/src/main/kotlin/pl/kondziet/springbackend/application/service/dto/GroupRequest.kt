@@ -19,6 +19,7 @@ data class GroupRequest(
     @field:Size(min = 1, message = "At least one user must be present")
     val users: List<UserRequest>,
     val constraints: List<ConstraintRequest>? = null,
+    val allowMutualDrawing: Boolean,
     @field:Future(message = "Yankee Swap date must be in the future")
     @field:JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     val yankeeSwapDate: LocalDateTime? = null
@@ -28,6 +29,7 @@ data class GroupRequest(
         description = description,
         members = users.map { it.toUser() },
         constraints = constraints?.map { it.toConstraint() } ?: emptyList(),
+        allowMutualDrawing = allowMutualDrawing,
         yankeeSwapDate = yankeeSwapDate
     )
 }

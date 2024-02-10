@@ -13,13 +13,14 @@ data class Group(
     val description: String,
     val members: List<User>,
     val constraints: List<Constraint>? = null,
+    val allowMutualDrawing: Boolean,
     val yankeeSwapDate: LocalDateTime? = null,
     val draws: List<Draw>? = null
 ) {
     fun toGraph(): Graph<User> {
         return Graph.completeOf(members)
             .excludeNeighbors(
-                constraints?.associate { it.user to it.excludedUsers } ?: emptyMap()
+                constraints?.associate { it.user to it.excludedDrawees } ?: emptyMap()
             )
             .shuffleNeighbors()
             .build()
