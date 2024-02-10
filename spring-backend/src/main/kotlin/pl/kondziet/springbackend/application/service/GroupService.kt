@@ -1,46 +1,22 @@
 package pl.kondziet.springbackend.application.service
 
 import pl.kondziet.springbackend.domain.algorithm.SingleRegularDrawStrategy
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import pl.kondziet.springbackend.application.service.dto.GroupRequest
 import pl.kondziet.springbackend.infrastructure.persistence.GroupRepository
 import pl.kondziet.springbackend.domain.model.Draw
-import pl.kondziet.springbackend.domain.model.ResultEntry
-import pl.kondziet.springbackend.domain.model.User
 
 @Service
-class GroupService(val groupRepository: GroupRepository) {
+class GroupService(val groupRepository: GroupRepository, val drawService: DrawService) {
 
     fun createGroup(groupRequest: GroupRequest) {
-        val group = groupRequest.toGroup()
-        val savedGroup = groupRepository.save(group)
+        val savedGroup = groupRepository.save(groupRequest.toGroup())
 
-        val firstDraw = calculateDraw(savedGroup.id!!)
-        val results = generateResultEntries(firstDraw)
+        val drawResults = drawService.calculateDraws(savedGroup.toGraph(), SingleRegularDrawStrategy())
 
         savedGroup
-            .copy(draws = listOf(Draw(results)))
+            .copy(draws = listOf(Draw(drawResults)))
             .let { groupRepository.save(it) }
     }
 
-    fun calculateDraw(groupId: String): List<User> {
-        val group = groupRepository.findByIdOrNull(groupId) ?: throw IllegalArgumentException("Group not found")
-        val graph = group.toGraph()
-        return graph.findCycles(SingleRegularDrawStrategy(), randomStartNode = true).first()
-    }
-
-    private fun generateResultEntries(firstDraw: List<User>): List<ResultEntry> {
-        val firstDrawIterator = firstDraw.iterator()
-        val secondDrawIterator = firstDraw.iterator()
-        secondDrawIterator.next()
-
-        return generateSequence {
-            if (secondDrawIterator.hasNext()) {
-                ResultEntry(firstDrawIterator.next(), secondDrawIterator.next())
-            } else {
-                null
-            }
-        }.toList()
-    }
 }
