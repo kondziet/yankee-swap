@@ -5,6 +5,7 @@ import pl.kondziet.springbackend.domain.algorithm.CycleFindingStrategy
 import pl.kondziet.springbackend.domain.algorithm.Graph
 import pl.kondziet.springbackend.domain.model.ResultEntry
 import pl.kondziet.springbackend.domain.model.User
+import pl.kondziet.springbackend.domain.model.toResultEntries
 
 @Service
 class DrawService {
@@ -15,21 +16,6 @@ class DrawService {
             throw IllegalStateException("No cycles found in the graph")
         }
 
-        return generateResultEntries(cycles)
-    }
-
-    private fun generateResultEntries(drawResults: List<List<User>>): List<ResultEntry> {
-        return if (drawResults.size == 1) {
-            val cycle = drawResults.first()
-            cycle.zipWithNext { drawer, drawee ->
-                ResultEntry(drawer, drawee)
-            }
-        } else {
-            drawResults.flatMap { cycle ->
-                cycle.zipWithNext { drawer, drawee ->
-                    ResultEntry(drawer, drawee)
-                }
-            }
-        }
+        return cycles.toResultEntries()
     }
 }
