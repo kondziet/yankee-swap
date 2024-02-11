@@ -9,6 +9,7 @@ import pl.kondziet.springbackend.domain.model.Draw
 import pl.kondziet.springbackend.domain.algorithm.Graph
 import pl.kondziet.springbackend.domain.model.Group
 import pl.kondziet.springbackend.domain.model.User
+import java.time.LocalDateTime
 
 @Component
 class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunner {
@@ -31,7 +32,7 @@ class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunn
                 ),
                 allowMutualDrawing = false,
                 draws = listOf(
-                    Draw(results = listOf())
+                    Draw(results = listOf(), completedAt = LocalDateTime.now())
                 )
             )
         )

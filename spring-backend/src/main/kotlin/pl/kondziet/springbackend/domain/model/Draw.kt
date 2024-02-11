@@ -1,6 +1,8 @@
 package pl.kondziet.springbackend.domain.model
 
-data class Draw(val results: List<ResultEntry>)
+import java.time.LocalDateTime
+
+data class Draw(val results: List<ResultEntry>, val completedAt: LocalDateTime)
 
 fun List<ResultEntry>.toCycles(): List<List<User>> {
     val cycles = mutableListOf<List<User>>()
