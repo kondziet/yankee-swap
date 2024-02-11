@@ -17,13 +17,7 @@ class GroupService(val groupRepository: GroupRepository, val drawService: DrawSe
     fun createGroup(groupRequest: GroupRequest) {
         val group = groupRequest.toGroup()
 
-        val drawStrategy = if (group.allowMutualDrawing) {
-            MultipleRegularDrawStrategy<User>()
-        } else {
-            SingleRegularDrawStrategy<User>()
-        }
-
-        val drawResults = drawService.calculateDraws(group.toGraph(), drawStrategy)
+        val drawResults = drawService.calculateRegularDraw(group)
 
         groupRepository.save(
             group.copy(
@@ -36,10 +30,14 @@ class GroupService(val groupRepository: GroupRepository, val drawService: DrawSe
         val group = groupRepository.findByIdOrNull(groupId)
             ?: throw IllegalArgumentException("Group with id $groupId not found")
 
-        if (group.shouldPerformYankeeSwap()){
+        if (group.shouldPerformYankeeSwap()) {
+            val drawResults = drawService.calculateYankeeDraw(group)
+            group.copy(
+                draws = group.draws?.plus(Draw(results = drawResults, completedAt = LocalDateTime.now()))
+            ).let { groupRepository.save(it) }
         }
 
-        return listOf()
+        return group.draws?.last()?.results?.filter { !it.seen }?.map { it.drawer.toUserResponse() } ?: emptyList()
     }
 
 }

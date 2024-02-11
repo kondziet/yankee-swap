@@ -1,21 +1,32 @@
 package pl.kondziet.springbackend.application.service
 
 import org.springframework.stereotype.Service
-import pl.kondziet.springbackend.domain.algorithm.CycleFindingStrategy
-import pl.kondziet.springbackend.domain.algorithm.Graph
-import pl.kondziet.springbackend.domain.model.ResultEntry
-import pl.kondziet.springbackend.domain.model.User
-import pl.kondziet.springbackend.domain.model.toResultEntries
+import pl.kondziet.springbackend.domain.algorithm.MultipleRegularDrawStrategy
+import pl.kondziet.springbackend.domain.algorithm.SingleRegularDrawStrategy
+import pl.kondziet.springbackend.domain.algorithm.SingleYankeeDrawStrategy
+import pl.kondziet.springbackend.domain.algorithm.YankeeSplit
+import pl.kondziet.springbackend.domain.model.*
 
 @Service
 class DrawService {
 
-    fun calculateDraws(graph: Graph<User>, drawStrategy: CycleFindingStrategy<User>): List<ResultEntry> {
-        val cycles = graph.findCycles(drawStrategy, true)
+    fun calculateRegularDraw(group: Group): List<ResultEntry> {
+        val drawStrategy = if (group.allowMutualDrawing) {
+            MultipleRegularDrawStrategy<User>()
+        } else {
+            SingleRegularDrawStrategy<User>()
+        }
+
+        val cycles = group.toGraph().findCycles(drawStrategy, true)
         if (cycles.isEmpty()) {
             throw IllegalStateException("No cycles found in the graph")
         }
 
         return cycles.toResultEntries()
+    }
+
+    fun calculateYankeeDraw(group: Group): List<ResultEntry> {
+
+        return listOf()
     }
 }
