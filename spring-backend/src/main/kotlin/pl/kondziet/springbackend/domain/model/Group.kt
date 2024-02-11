@@ -25,5 +25,11 @@ data class Group(
             .shuffleNeighbors()
             .build()
     }
+
+    fun shouldPerformYankeeSwap(): Boolean {
+        return (yankeeSwapDate != null) &&
+                yankeeSwapDate.isBefore(LocalDateTime.now()) &&
+                (draws?.last()?.completedAt?.isBefore(yankeeSwapDate) ?: false)
+    }
 }
 
