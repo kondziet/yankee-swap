@@ -25,7 +25,7 @@ class MultipleRegularDrawStrategy<T> : CycleFindingStrategy<T> {
         }
 
         for (neighbor in adjacency[current] ?: emptyList()) {
-            if (subCycles.flatten().toSet().size == adjacency.keys.size - 1 && subCycles.last().size >= 2 && subCycles.last()
+            if (subCycles.flatten().toSet().size == adjacency.keys.size && subCycles.last().size >= 2 && subCycles.last()
                     .first() == neighbor
             ) {
                 subCycles.last().add(neighbor)
