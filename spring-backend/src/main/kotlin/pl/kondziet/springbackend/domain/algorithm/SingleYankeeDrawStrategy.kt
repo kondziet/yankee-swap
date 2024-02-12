@@ -14,10 +14,7 @@ class SingleYankeeDrawStrategy<T>(private val cycles: List<List<T>>) : CycleFind
             }
         }
 
-        println(cycles)
-
         val previousDraws = findPreviousDraws(cycles)
-        println(previousDraws)
 
         for ((index, cycle) in cycles.withIndex()) {
             val remainingCycles = cycles.filterIndexed { i, _ -> i != index }
