@@ -35,8 +35,8 @@ class Graph<T> private constructor(private val adjacency: Map<T, MutableList<T>>
         }
     }
 
-    fun findCycles(cycleFindingStrategy: CycleFindingStrategy<T>, randomStartNode: Boolean = false): List<List<T>> {
-        return cycleFindingStrategy.findCycles(adjacency, randomStartNode)
+    fun findCycles(cycleFindingStrategy: CycleFindingStrategy<T>): List<List<T>> {
+        return cycleFindingStrategy.findCycles(adjacency)
     }
 
     override fun toString(): String {

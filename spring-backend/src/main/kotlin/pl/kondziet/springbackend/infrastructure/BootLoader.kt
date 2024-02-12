@@ -49,7 +49,7 @@ class BootLoader(private val groupRepository: GroupRepository) : CommandLineRunn
             .shuffleNeighbors()
             .build()
 
-        val cycle = graph.findCycles(SingleRegularDrawStrategy(), randomStartNode = true).first()
+        val cycle = graph.findCycles(SingleRegularDrawStrategy()).first()
         println(cycle)
 
         println(graph)
