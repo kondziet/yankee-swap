@@ -4,12 +4,16 @@ import kotlin.random.Random
 
 class MultipleRegularDrawStrategy<T> : CycleFindingStrategy<T> {
     override fun findCycles(adjacency: Map<T, List<T>>, randomStartNode: Boolean): List<List<T>> {
-        val start = if (randomStartNode) {
-            Random(System.currentTimeMillis()).let { random -> adjacency.keys.toList().random(random) }
-        } else {
-            adjacency.keys.first()
+        val keys = adjacency.keys.toMutableList()
+        var result: List<List<T>> = mutableListOf()
+
+        while (keys.isNotEmpty() && result.isEmpty()) {
+            val startNode = Random(System.currentTimeMillis()).let { random -> keys.random(random) }
+            keys.remove(startNode)
+            result = findSubCycles(startNode, startNode, mutableListOf(), adjacency) ?: emptyList()
         }
-        return findSubCycles(start, start, mutableListOf(), adjacency) ?: emptyList()
+
+        return result
     }
 
     private fun findSubCycles(
@@ -37,7 +41,7 @@ class MultipleRegularDrawStrategy<T> : CycleFindingStrategy<T> {
                 val remainingNodes = adjacency.keys.minus(subCycles.flatten().toSet())
 
                 if (remainingNodes.isNotEmpty()) {
-                    val randomNode = remainingNodes.random()
+                    val randomNode = Random(System.currentTimeMillis()).let { random -> remainingNodes.random(random) }
                     val result = findSubCycles(randomNode, randomNode, subCycles, adjacency)
                     if (result != null) {
                         return result
