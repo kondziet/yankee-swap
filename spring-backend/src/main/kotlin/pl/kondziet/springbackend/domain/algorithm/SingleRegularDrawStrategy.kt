@@ -3,13 +3,9 @@ package pl.kondziet.springbackend.domain.algorithm
 import kotlin.random.Random
 
 class SingleRegularDrawStrategy<T> : CycleFindingStrategy<T> {
-    override fun findCycles(adjacency: Map<T, List<T>>, randomStartNode: Boolean): List<List<T>> {
-        val start = if (randomStartNode) {
-            Random(System.currentTimeMillis()).let { random -> adjacency.keys.toList().random(random) }
-        } else {
-            adjacency.keys.first()
-        }
-        return listOf(findSingularHamiltonianCycle(start, start, mutableListOf(), adjacency) ?: emptyList())
+    override fun findCycles(adjacency: Map<T, List<T>>): List<List<T>> {
+        val startNode = Random(System.currentTimeMillis()).let { random -> adjacency.keys.toList().random(random) }
+        return listOf(findSingularHamiltonianCycle(startNode, startNode, mutableListOf(), adjacency) ?: emptyList())
     }
 
     private fun findSingularHamiltonianCycle(

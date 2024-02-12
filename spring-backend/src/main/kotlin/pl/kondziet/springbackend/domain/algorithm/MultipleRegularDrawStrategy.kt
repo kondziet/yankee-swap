@@ -3,7 +3,7 @@ package pl.kondziet.springbackend.domain.algorithm
 import kotlin.random.Random
 
 class MultipleRegularDrawStrategy<T> : CycleFindingStrategy<T> {
-    override fun findCycles(adjacency: Map<T, List<T>>, randomStartNode: Boolean): List<List<T>> {
+    override fun findCycles(adjacency: Map<T, List<T>>): List<List<T>> {
         val keys = adjacency.keys.toMutableList()
         var result: List<List<T>> = mutableListOf()
 

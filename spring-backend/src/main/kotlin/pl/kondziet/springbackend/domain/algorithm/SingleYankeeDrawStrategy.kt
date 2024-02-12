@@ -3,7 +3,7 @@ package pl.kondziet.springbackend.domain.algorithm
 import java.util.Collections
 
 class SingleYankeeDrawStrategy<T>(private val cycles: List<List<T>>) : CycleFindingStrategy<T> {
-    override fun findCycles(adjacency: Map<T, List<T>>, randomStartNode: Boolean): List<List<T>> {
+    override fun findCycles(adjacency: Map<T, List<T>>): List<List<T>> {
         val copiedAdjacency = HashMap<T, List<T>>(adjacency)
 
         cycles.forEach { cycle ->
@@ -24,16 +24,12 @@ class SingleYankeeDrawStrategy<T>(private val cycles: List<List<T>>) : CycleFind
 
             val neighborsOfDrawer = copiedAdjacency[drawer]?.intersect(neighbors.toSet())?.toList() ?: emptyList()
 
-            if (randomStartNode) {
-                val shuffled = neighborsOfDrawer.shuffled()
-                Collections.swap(shuffled, shuffled.indexOf(previousDraws[drawer]), shuffled.lastIndex)
-                copiedAdjacency[drawer] = shuffled
-            } else {
-                copiedAdjacency[drawer] = neighborsOfDrawer
-            }
+            val shuffled = neighborsOfDrawer.shuffled()
+            Collections.swap(shuffled, shuffled.indexOf(previousDraws[drawer]), shuffled.lastIndex)
+            copiedAdjacency[drawer] = shuffled
         }
 
-        return SingleRegularDrawStrategy<T>().findCycles(copiedAdjacency, randomStartNode)
+        return SingleRegularDrawStrategy<T>().findCycles(copiedAdjacency)
     }
 
     private fun findPreviousDraws(cycles: List<List<T>>): Map<T, T> {
