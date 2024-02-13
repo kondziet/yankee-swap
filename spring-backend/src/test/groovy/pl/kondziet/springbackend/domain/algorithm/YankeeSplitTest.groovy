@@ -20,5 +20,14 @@ class YankeeSplitTest extends Specification {
         ["Alice", "Bob", "David", "Carol", "Mark", "Alice"] | ["Alice", "Bob", "David", "Carol", "Mark"] | [["Alice"], ["Bob"], ["David"], ["Carol"], ["Mark"]]
     }
 
+    def "should split sub-cycles correctly"() {
+        expect:
+        yankeeSplit.splitSubCycles(cycles, users) == expected
 
+        where:
+        cycles                                                  | users                              | expected
+        [["George", "Helen", "George"], ["Bob", "Ivan", "Bob"]] | ["George", "Helen", "Bob", "Ivan"] | [[["George"], ["Helen"]], [["Bob"], ["Ivan"]]]
+        [["George", "Helen", "George"], ["Bob", "Ivan", "Bob"]] | ["Bob"]                            | [[["Helen", "George"]], [["Ivan", "Bob"]]]
+        [["David", "Alice", "Helen", "Eric", "Frank", "Bob"]]   | ["Alice", "Helen", "Bob"]          | [[["David", "Alice"], ["Helen"], ["Eric", "Frank", "Bob"]]]
+    }
 }
