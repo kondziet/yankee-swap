@@ -8,7 +8,7 @@ class YankeeSplitTest extends Specification {
 
     def "should split cycles correctly"() {
         expect:
-        yankeeSplit.split(cycle, users) == expected
+        yankeeSplit.splitCycle(cycle, users) == expected
 
         where:
         cycle                                               | users                                      | expected
@@ -21,7 +21,7 @@ class YankeeSplitTest extends Specification {
 
     def "should throw exception"() {
         when:
-        yankeeSplit.split(cycle, users)
+        yankeeSplit.splitCycle(cycle, users)
 
         then:
         def exception = thrown(IllegalArgumentException)
