@@ -46,13 +46,10 @@ class MultipleRegularDrawStrategy<T> : CycleFindingStrategy<T> {
                     if (result != null) {
                         return result
                     }
-                }
-
-                if (subCycles.isNotEmpty() && subCycles.last().size > 1) {
-                    subCycles.last().removeAt(subCycles.last().lastIndex)
                 } else {
                     if (subCycles.isNotEmpty()) {
                         subCycles.removeAt(subCycles.lastIndex)
+                        subCycles.add(mutableListOf(start))
                     }
                 }
             }
