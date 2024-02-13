@@ -2,11 +2,13 @@ package pl.kondziet.springbackend.domain.algorithm
 
 class YankeeSplit<T> {
 
-    fun split(cycle: List<T>, users: List<T>): List<List<T>> {
-        validateArguments(cycle, users)
+    fun splitCycle(cycle: List<T>, users: List<T>): List<List<T>>? {
+        if (users.isEmpty() || cycle.isEmpty()) {
+            return null
+        }
 
         val results = mutableListOf<MutableList<T>>()
-        val indices = getUsersIndices(cycle, users)
+        val indices = users.map { cycle.indexOf(it) }.sorted()
 
         var start = 0
         for (index in indices) {
@@ -15,12 +17,6 @@ class YankeeSplit<T> {
         }
         results.add(cycle.subList(start, cycle.size).toMutableList())
 
-        handleLastElement(results)
-
-        return results
-    }
-
-    private fun handleLastElement(results: MutableList<MutableList<T>>) {
         val last = results.last()
         if (last.size > 1) {
             last.removeAt(last.lastIndex)
@@ -29,20 +25,25 @@ class YankeeSplit<T> {
         } else {
             results.removeAt(results.lastIndex)
         }
+
+        return results
     }
 
-    private fun getUsersIndices(cycle: List<T>, users: List<T>): List<Int> {
-        return users.map { cycle.indexOf(it) }.sorted()
-    }
+    fun splitSubCycles(subCycles: List<List<T>>, users: List<T>): List<List<List<T>>>? {
+        if (users.isEmpty() || subCycles.isEmpty()) {
+            return null
+        }
 
-    private fun validateArguments(cycle: List<T>, users: List<T>) {
-        require(cycle.isNotEmpty()) { "Cycle cannot be empty" }
-        require(users.isNotEmpty()) { "Users cannot be empty" }
-        require(cycle.size >= 3) { "Cycle cannot be shorter than 3" }
-        require(cycle.size > users.size) { "Cycle cannot be shorter than users" }
-        require(cycle.first() == cycle.last()) { "Cycle must be a cycle" }
-        require(cycle.subList(0, cycle.size - 1).size == cycle.distinct().size) { "Cycle cannot contain duplicates" }
-        require(users.distinct().size == users.size) { "Users cannot contain duplicates" }
-        require(cycle.distinct().containsAll(users)) { "Cycle have to contain all users" }
+        val result = mutableListOf<List<List<T>>>()
+        subCycles.forEach { subCycle ->
+            val usersInSubCycle = users.intersect(subCycle.toSet()).toList()
+            if (usersInSubCycle.isNotEmpty()) {
+                result.add(splitCycle(subCycle, usersInSubCycle) ?: emptyList())
+            } else {
+                result.add(listOf(subCycle - subCycle.first()))
+            }
+        }
+
+        return result
     }
 }
