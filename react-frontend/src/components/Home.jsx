@@ -9,17 +9,17 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleGroupEnter = async () => {
-    try {
-      const response = await publicClientRequest.get(
-        `/group/${groupIdentifier}`,
-      );
-      const groupDraws = response.data;
-      navigate(`/group/${groupIdentifier}`, { state: { groupDraws } });
-    } catch (error) {
-      if (error.response.status === 404) {
-        alert("Group not found");
-      }
-    }
+    await publicClientRequest
+      .get(`/group/${groupIdentifier}`)
+      .then((response) => {
+        const membersDraws = response.data;
+        navigate(`/group/${groupIdentifier}`, { state: { membersDraws } });
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          alert("Group not found");
+        }
+      });
   };
 
   return (
