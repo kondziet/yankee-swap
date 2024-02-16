@@ -3,7 +3,6 @@ package pl.kondziet.springbackend.infrastructure.web
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.*
 import pl.kondziet.springbackend.application.service.GroupService
 import pl.kondziet.springbackend.application.service.dto.GroupRequest
