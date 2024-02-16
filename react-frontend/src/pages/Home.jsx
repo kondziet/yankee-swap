@@ -11,9 +11,8 @@ const Home = () => {
   const handleGroupEnter = async () => {
     await publicClientRequest
       .get(`/group/${groupIdentifier}`)
-      .then((response) => {
-        const membersDraws = response.data;
-        navigate(`/group/${groupIdentifier}`, { state: { membersDraws } });
+      .then(() => {
+        navigate(`/group/${groupIdentifier}`);
       })
       .catch((error) => {
         if (error.response.status === 404) {
