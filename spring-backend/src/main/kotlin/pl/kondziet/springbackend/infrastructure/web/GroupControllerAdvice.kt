@@ -24,4 +24,16 @@ class GroupControllerAdvice {
 
         return ResponseEntity.badRequest().body(response)
     }
+
+    @ExceptionHandler(NoSuchElementException::class)
+    fun handleNoSuchElementException(exception: NoSuchElementException): ResponseEntity<Any> {
+        val response = mapOf(
+            "status" to HttpStatus.NOT_FOUND.value(),
+            "error" to HttpStatus.NOT_FOUND.reasonPhrase,
+            "message" to "Resource not found",
+            "details" to exception.message
+        )
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response)
+    }
 }
