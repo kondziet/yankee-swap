@@ -24,6 +24,6 @@ class GroupController(val groupService: GroupService) {
 
     @GetMapping("/{groupId}/{userName}")
     fun getMemberDraw(@PathVariable groupId: String, @PathVariable userName: String): ResponseEntity<Any> {
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok(groupService.getMemberDraw(groupId, userName))
     }
 }

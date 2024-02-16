@@ -44,20 +44,23 @@ class GroupService(val groupRepository: GroupRepository, val drawService: DrawSe
         val group = groupRepository.findByIdOrNull(groupId)
             ?: throw NoSuchElementException("Group with id $groupId not found")
 
-//        group.copy(
-//            draws = group.draws?.map { draw ->
-//                draw.copy(
-//                    results = draw.results.map { result ->
-//                        if (result.drawer.name == userName) {
-//                            result.copy(seen = true)
-//                        } else {
-//                            result
-//                        }
-//                    }
-//                )
-//            }
-//        ).let { groupRepository.save(it) }
+        val userResponse = (group.draws?.last()?.results?.find { it.drawer.name == userName }?.drawee?.toUserResponse()
+            ?: throw NoSuchElementException("User with name $userName not found"))
 
-        return TODO()
+        group.copy(
+            draws = group.draws.map { draw ->
+                draw.copy(
+                    results = draw.results.map { result ->
+                        if (result.drawer.name == userName) {
+                            result.copy(seen = true)
+                        } else {
+                            result
+                        }
+                    }
+                )
+            }
+        ).let { groupRepository.save(it) }
+
+        return userResponse
     }
 }
