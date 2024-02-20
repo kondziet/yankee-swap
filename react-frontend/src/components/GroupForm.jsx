@@ -3,6 +3,7 @@ import useMultiStepForm from "../hooks/useMultiStepForm";
 import GroupDetails from "./GroupDetails";
 import MembersDetails from "./MembersDetails";
 import OwnerDetails from "./OwnerDetails";
+import MembersConstraints from "./MembersConstraints";
 
 const INITIAL_DATA = {
   owner: {
@@ -12,7 +13,7 @@ const INITIAL_DATA = {
     name: "",
     description: "",
   },
-  members: ["", "", "", "", ""]
+  members: ["", "", "", "", ""],
 };
 
 const GroupForm = () => {
@@ -28,6 +29,7 @@ const GroupForm = () => {
       <OwnerDetails {...data} updateData={updateData} />,
       <GroupDetails {...data} updateData={updateData} />,
       <MembersDetails {...data} updateData={updateData} />,
+      <MembersConstraints />,
     ]);
 
   const handleSubmit = (e) => {
