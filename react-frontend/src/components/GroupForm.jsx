@@ -14,6 +14,7 @@ const INITIAL_DATA = {
     description: "",
   },
   members: ["", "", "", "", ""],
+  constraints: [],
 };
 
 const GroupForm = () => {
@@ -29,7 +30,7 @@ const GroupForm = () => {
       <OwnerDetails {...data} updateData={updateData} />,
       <GroupDetails {...data} updateData={updateData} />,
       <MembersDetails {...data} updateData={updateData} />,
-      <MembersConstraints />,
+      <MembersConstraints {...data} updateData={updateData} />,
     ]);
 
   const handleSubmit = (e) => {
