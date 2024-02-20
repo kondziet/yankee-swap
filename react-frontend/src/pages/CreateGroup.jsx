@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GroupForm from "../components/GroupForm";
 
 const CreateGroup = () => {
   const [members, setMembers] = useState(["", "", "", "", ""]);
@@ -41,6 +42,7 @@ const CreateGroup = () => {
         );
       })}
       <button onClick={handleMemberCreation}>Add member</button>
+      <GroupForm />
     </div>
   );
 };
