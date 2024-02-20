@@ -10,6 +10,7 @@ const MembersDetails = ({ members, updateData }) => {
   };
 
   const handleMemberDeletion = (index) => {
+    // remove constraints of removed member
     updateData({ members: members.filter((_, i) => i !== index) });
   };
 
