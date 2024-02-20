@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useMultiStepForm from "../hooks/useMultiStepForm";
 import GroupDetails from "./GroupDetails";
-import MembersDetails from "./MemberDetails";
+import MembersDetails from "./MembersDetails";
 import OwnerDetails from "./OwnerDetails";
 
 const INITIAL_DATA = {
@@ -12,7 +12,7 @@ const INITIAL_DATA = {
     name: "",
     description: "",
   },
-  members: [],
+  members: ["", "", "", "", ""]
 };
 
 const GroupForm = () => {
@@ -21,8 +21,14 @@ const GroupForm = () => {
     setData((prev) => ({ ...prev, ...fields }));
   };
 
+  console.log(data);
+
   const { steps, currentStepIndex, step, back, next, isFirstStep, isLastStep } =
-    useMultiStepForm([<OwnerDetails />, <GroupDetails />, <MembersDetails />]);
+    useMultiStepForm([
+      <OwnerDetails {...data} updateData={updateData} />,
+      <GroupDetails {...data} updateData={updateData} />,
+      <MembersDetails {...data} updateData={updateData} />,
+    ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
