@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default ({ steps }) => {
+export default (steps) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
   const next = () => {
@@ -25,5 +25,8 @@ export default ({ steps }) => {
     setCurrentStepIndex(stepIndex);
   };
 
-  return { currentStepIndex, step: steps[currentStepIndex], next, back, goTo, steps };
+  const isFirstStep = currentStepIndex === 0;
+  const isLastStep = currentStepIndex === steps.length - 1;
+
+  return { currentStepIndex, step: steps[currentStepIndex], next, back, goTo, steps, isFirstStep, isLastStep };
 };
