@@ -13,12 +13,14 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
       {members.map((member, index) => {
         return <div onClick={() => handleMemberChange(member)}>{member}</div>;
       })}
-      <MemberConstraints
-        currentMember={currentMember}
-        members={members}
-        constraints={constraints}
-        updateData={updateData}
-      />
+      {currentMember && (
+        <MemberConstraints
+          currentMember={currentMember}
+          members={members}
+          constraints={constraints}
+          updateData={updateData}
+        />
+      )}
     </div>
   );
 };
