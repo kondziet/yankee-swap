@@ -4,7 +4,7 @@ const MemberConstraints = ({
   currentMember,
   members,
   constraints,
-  updateData,
+  updateConstraints,
 }) => {
   const matchingConstraint = constraints.find(
     (constraint) => constraint.user === currentMember,
@@ -16,18 +16,7 @@ const MemberConstraints = ({
 
   useEffect(() => {
     if (!currentMember) return;
-
-    updateData({
-      constraints: [
-        ...constraints.filter(
-          (constraint) => constraint.user !== currentMember,
-        ),
-        {
-          user: currentMember,
-          excludedUsers: checkedMembers,
-        },
-      ],
-    });
+    updateConstraints(currentMember, checkedMembers);
   }, [checkedMembers]);
 
   const renderedConstraints = members

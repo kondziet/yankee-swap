@@ -8,6 +8,18 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
     setCurrentMember(member);
   };
 
+  const handleConstraintsChange = (member, excludedUsers) => {
+    updateData({
+      constraints: [
+        ...constraints.filter((constraint) => constraint.user !== member),
+        {
+          user: member,
+          excludedUsers,
+        },
+      ],
+    });
+  };
+
   return (
     <div>
       {members.map((member) => {
@@ -19,7 +31,7 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
           currentMember={currentMember}
           members={members}
           constraints={constraints}
-          updateData={updateData}
+          updateConstraints={handleConstraintsChange}
         />
       )}
     </div>
