@@ -23,7 +23,7 @@ data class Group(
     fun toGraph(): Graph<User> {
         return Graph.completeOf(members)
             .excludeNeighbors(
-                constraints?.associate { it.user to it.excludedDrawees } ?: emptyMap()
+                constraints?.associate { it.user to it.excludedUsers } ?: emptyMap()
             )
             .shuffleNeighbors()
             .build()
