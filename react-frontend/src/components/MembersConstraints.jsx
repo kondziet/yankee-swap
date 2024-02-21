@@ -10,8 +10,8 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
 
   return (
     <div>
-      {members.map((member, index) => {
-        return <div onClick={() => handleMemberChange(member)}>{member}</div>;
+      {members.map((member) => {
+        return <div key={member} onClick={() => handleMemberChange(member)}>{member}</div>;
       })}
       {currentMember && (
         <MemberConstraints
