@@ -23,8 +23,6 @@ const GroupForm = () => {
     setData((prev) => ({ ...prev, ...fields }));
   };
 
-  console.log(data);
-
   const { steps, currentStepIndex, step, back, next, isFirstStep, isLastStep } =
     useMultiStepForm([
       <OwnerDetails {...data} updateData={updateData} />,
