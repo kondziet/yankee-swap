@@ -13,7 +13,7 @@ const INITIAL_DATA = {
     name: "",
     description: "",
   },
-  members: ["", "", "", "", ""],
+  members: [{ name: "" }, { name: "" }, { name: "" }],
   constraints: [],
 };
 

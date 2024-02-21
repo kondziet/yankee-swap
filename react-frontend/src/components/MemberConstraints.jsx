@@ -20,12 +20,12 @@ const MemberConstraints = ({
   }, [checkedMembers]);
 
   const renderedConstraints = members
-    .filter((member) => member !== currentMember && member !== "")
+    .filter((member) => member !== currentMember && member)
     .map((member) => {
       const isChecked = checkedMembers.includes(member);
 
       return (
-        <div key={member}>
+        <div key={member.name}>
           <input
             type="checkbox"
             checked={isChecked}
@@ -34,12 +34,14 @@ const MemberConstraints = ({
                 setCheckedMembers((prev) => [...prev, member]);
               } else {
                 setCheckedMembers((prev) =>
-                  prev.filter((checkedMember) => checkedMember !== member),
+                  prev.filter(
+                    (checkedMember) => checkedMember !== member,
+                  ),
                 );
               }
             }}
           />
-          {member}
+          {member.name}
         </div>
       );
     });

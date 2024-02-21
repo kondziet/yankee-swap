@@ -1,12 +1,12 @@
 const MembersDetails = ({ members, updateData }) => {
   const handleMemeberChange = (index, value) => {
     const newMembers = [...members];
-    newMembers[index] = value;
+    newMembers[index].name = value;
     updateData({ members: newMembers });
   };
 
   const handleMemberCreation = () => {
-    updateData({ members: [...members, ""] });
+    updateData({ members: [...members, { name: "" }] });
   };
 
   const handleMemberDeletion = (index) => {
@@ -21,7 +21,7 @@ const MembersDetails = ({ members, updateData }) => {
         return (
           <div key={index}>
             <input
-              value={members[index]}
+              value={member.name}
               onChange={(e) => handleMemeberChange(index, e.target.value)}
               placeholder={`Member ${index + 1}`}
             />

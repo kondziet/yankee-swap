@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import MemberConstraints from "./MemberConstraints";
 
 const MembersConstraints = ({ members, constraints, updateData }) => {
-  const [currentMember, setCurrentMember] = React.useState("");
+  const [currentMember, setCurrentMember] = useState();
 
   const handleMemberChange = (member) => {
     setCurrentMember(member);
@@ -23,11 +23,11 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
   return (
     <div>
       {members.map((member) => {
-        return <div key={member} onClick={() => handleMemberChange(member)}>{member}</div>;
+        return <div key={member.name} onClick={() => handleMemberChange(member)}>{member.name}</div>;
       })}
       {currentMember && (
         <MemberConstraints
-          key={currentMember}
+          key={currentMember.name}
           currentMember={currentMember}
           members={members}
           constraints={constraints}
