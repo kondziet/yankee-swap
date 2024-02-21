@@ -15,9 +15,6 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
       })}
       <MemberConstraints
         currentMember={currentMember}
-        currentMemberConstraints={constraints.filter(
-          (constraint) => constraint.user === currentMember,
-        )}
         members={members}
         constraints={constraints}
         updateData={updateData}

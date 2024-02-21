@@ -1,44 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const MemberConstraints = ({
   currentMember,
-  currentMemberConstraints,
   members,
   constraints,
   updateData,
 }) => {
+  const matchingConstraint = constraints.find(
+    (constraint) => constraint.user === currentMember,
+  );
+
+  const [checkedMembers, setCheckedMembers] = useState(
+    matchingConstraint ? [...matchingConstraint.excludedUsers] : [],
+  );
+
+  useEffect(() => {
+    if (!currentMember) return;
+
+    updateData({
+      constraints: [
+        ...constraints.filter(
+          (constraint) => constraint.user !== currentMember,
+        ),
+        {
+          user: currentMember,
+          excludedUsers: checkedMembers,
+        },
+      ],
+    });
+  }, [checkedMembers]);
+
   const renderedConstraints = members
     .filter((member) => member !== currentMember && member !== "")
     .map((member) => {
+      const isChecked = checkedMembers.includes(member);
+
       return (
-        <div>
+        <div key={member}>
           <input
             type="checkbox"
-            checked={currentMemberConstraints.some(
-              (constraint) => constraint === member,
-            )}
+            checked={isChecked}
             onChange={(e) => {
               if (e.target.checked) {
-                updateData({
-                  constraints: [
-                    ...constraints,
-                    {
-                      user: currentMember,
-                      constraint: [
-                        ...currentMemberConstraints.constraint,
-                        member,
-                      ],
-                    },
-                  ],
-                });
+                setCheckedMembers((prev) => [...prev, member]);
               } else {
-                // updateData({
-                //   constraints: constraints.filter(
-                //     (constraint) =>
-                //       constraint.user !== currentMember ||
-                //       constraint.constraint !== member,
-                //   ),
-                // });
+                setCheckedMembers((prev) =>
+                  prev.filter((checkedMember) => checkedMember !== member),
+                );
               }
             }}
           />
@@ -46,6 +54,7 @@ const MemberConstraints = ({
         </div>
       );
     });
+
   return <div>{renderedConstraints}</div>;
 };
 
