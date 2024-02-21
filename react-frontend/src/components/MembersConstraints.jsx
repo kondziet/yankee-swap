@@ -15,6 +15,7 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
       })}
       {currentMember && (
         <MemberConstraints
+          key={currentMember}
           currentMember={currentMember}
           members={members}
           constraints={constraints}
