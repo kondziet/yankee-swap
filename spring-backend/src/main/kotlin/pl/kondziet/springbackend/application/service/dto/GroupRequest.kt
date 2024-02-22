@@ -1,7 +1,5 @@
 package pl.kondziet.springbackend.application.service.dto
 
-import com.fasterxml.jackson.annotation.JsonFormat
-import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import pl.kondziet.springbackend.application.service.validation.DistinctElements
@@ -17,7 +15,7 @@ data class GroupRequest(
     val description: String,
     @field:DistinctElements
     @field:Size(min = 1, message = "At least one user must be present")
-    val users: List<UserRequest>,
+    val members: List<UserRequest>,
     val constraints: List<ConstraintRequest>? = null,
     val allowMutualDrawing: Boolean,
     val yankeeSwapCountdownHours: Long? = null
@@ -25,7 +23,7 @@ data class GroupRequest(
     fun toGroup() = Group(
         name = name,
         description = description,
-        members = users.map { it.toUser() },
+        members = members.map { it.toUser() },
         constraints = constraints?.map { it.toConstraint() } ?: emptyList(),
         allowMutualDrawing = allowMutualDrawing,
         yankeeSwapDate = yankeeSwapCountdownHours?.let {
