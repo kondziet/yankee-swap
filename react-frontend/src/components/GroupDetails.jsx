@@ -1,22 +1,22 @@
-const GroupDetails = ({ group, updateData }) => {
+const GroupDetails = ({ name, description, updateData }) => {
   return (
     <div>
       <h2>Group Details</h2>
       <input
         type="text"
-        value={group.name}
+        value={name}
         onChange={(e) =>
           updateData({
-            group: { name: e.target.value, description: group.description },
+            name: e.target.value,
           })
         }
       />
       <input
         type="text"
-        value={group.description}
+        value={description}
         onChange={(e) =>
           updateData({
-            group: { name: group.name, description: e.target.value },
+            description: e.target.value,
           })
         }
       />

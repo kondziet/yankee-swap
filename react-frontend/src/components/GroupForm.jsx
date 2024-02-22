@@ -4,17 +4,17 @@ import GroupDetails from "./GroupDetails";
 import MembersDetails from "./MembersDetails";
 import OwnerDetails from "./OwnerDetails";
 import MembersConstraints from "./MembersConstraints";
+import AdditionalDetails from "./AdditionalDetails";
 
 const INITIAL_DATA = {
+  name: "",
+  description: "",
   owner: {
     name: "",
   },
-  group: {
-    name: "",
-    description: "",
-  },
   members: [{ name: "" }, { name: "" }, { name: "" }],
   constraints: [],
+  allowMutualDrawing: false,
 };
 
 const GroupForm = () => {
@@ -29,7 +29,10 @@ const GroupForm = () => {
       <GroupDetails {...data} updateData={updateData} />,
       <MembersDetails {...data} updateData={updateData} />,
       <MembersConstraints {...data} updateData={updateData} />,
+      <AdditionalDetails {...data} updateData={updateData} />,
     ]);
+
+  console.log(data);
 
   const handleNext = () => {
     next();
