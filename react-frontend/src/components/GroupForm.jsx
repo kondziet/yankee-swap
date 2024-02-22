@@ -31,23 +31,20 @@ const GroupForm = () => {
       <MembersConstraints {...data} updateData={updateData} />,
     ]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleNext = () => {
     next();
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        {step}
-        {currentStepIndex + 1} / {steps.length}
-        {!isFirstStep && (
-          <button type="button" onClick={back}>
-            Back
-          </button>
-        )}
-        <button type="submit">{isLastStep ? "Submit" : "Next"}</button>
-      </form>
+      {step}
+      {currentStepIndex + 1} / {steps.length}
+      {!isFirstStep && (
+        <button type="button" onClick={back}>
+          Back
+        </button>
+      )}
+      <button onClick={handleNext}>{isLastStep ? "Submit" : "Next"}</button>
     </div>
   );
 };
