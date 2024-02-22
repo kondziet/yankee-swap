@@ -12,6 +12,7 @@ data class Group(
     val id: String? = null,
     val name: String,
     val description: String,
+    val owner: User,
     val members: List<User>,
     val constraints: List<Constraint>? = null,
     val allowMutualDrawing: Boolean,

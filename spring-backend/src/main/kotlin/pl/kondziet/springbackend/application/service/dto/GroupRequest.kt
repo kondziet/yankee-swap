@@ -13,6 +13,7 @@ data class GroupRequest(
     @field:NotBlank(message = "Description cannot be blank")
     @field:Size(min = 10, max = 1000, message = "Description must be between 10 and 1000 characters")
     val description: String,
+    val owner: UserRequest,
     @field:DistinctElements
     @field:Size(min = 1, message = "At least one user must be present")
     val members: List<UserRequest>,
@@ -23,6 +24,7 @@ data class GroupRequest(
     fun toGroup() = Group(
         name = name,
         description = description,
+        owner = owner.toUser(),
         members = members.map { it.toUser() },
         constraints = constraints?.map { it.toConstraint() } ?: emptyList(),
         allowMutualDrawing = allowMutualDrawing,
