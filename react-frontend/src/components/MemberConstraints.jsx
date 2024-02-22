@@ -20,7 +20,7 @@ const MemberConstraints = ({
   }, [checkedMembers]);
 
   const renderedConstraints = members
-    .filter((member) => member !== currentMember && member)
+    .filter((member) => member !== currentMember && member.name)
     .map((member) => {
       const isChecked = checkedMembers.includes(member);
 
