@@ -20,12 +20,11 @@ const MemberConstraints = ({
   }, [checkedMembers]);
 
   const renderedConstraints = members
-    .filter((member) => member !== currentMember && member.name)
+    .filter((member) => member !== currentMember)
     .map((member) => {
       const isChecked = checkedMembers.includes(member);
       const isDisabled =
-        checkedMembers.length >=
-          members.filter((member) => member.name !== "").length - 2 &&
+        checkedMembers.length >= members.length - 2 &&
         !checkedMembers.includes(member);
 
       return (
