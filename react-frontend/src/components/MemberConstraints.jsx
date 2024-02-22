@@ -23,20 +23,23 @@ const MemberConstraints = ({
     .filter((member) => member !== currentMember && member.name)
     .map((member) => {
       const isChecked = checkedMembers.includes(member);
+      const isDisabled =
+        checkedMembers.length >=
+          members.filter((member) => member.name !== "").length - 2 &&
+        !checkedMembers.includes(member);
 
       return (
         <div key={member.name}>
           <input
             type="checkbox"
             checked={isChecked}
+            disabled={isDisabled}
             onChange={(e) => {
               if (e.target.checked) {
                 setCheckedMembers((prev) => [...prev, member]);
               } else {
                 setCheckedMembers((prev) =>
-                  prev.filter(
-                    (checkedMember) => checkedMember !== member,
-                  ),
+                  prev.filter((checkedMember) => checkedMember !== member),
                 );
               }
             }}

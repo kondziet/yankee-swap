@@ -1,4 +1,4 @@
-const MembersDetails = ({ members, updateData }) => {
+const MembersDetails = ({ members, constraints, updateData }) => {
   const handleMemeberChange = (index, value) => {
     const newMembers = [...members];
     newMembers[index].name = value;
@@ -10,8 +10,23 @@ const MembersDetails = ({ members, updateData }) => {
   };
 
   const handleMemberDeletion = (index) => {
-    // remove constraints of removed member
-    updateData({ members: members.filter((_, i) => i !== index) });
+    const newMembers = members.filter((_, i) => i !== index);
+    const newConstraints = constraints
+      .filter((constraint) => constraint.user !== members[index].name)
+      .map((constraint) => {
+        let newExcludedUsers = constraint.excludedUsers.filter(
+          (excludedUser) => excludedUser !== members[index].name,
+        );
+        if (newExcludedUsers.length >= newMembers.length - 2) {
+          newExcludedUsers = newExcludedUsers.slice(0, -1);
+        }
+        return {
+          user: constraint.user,
+          excludedUsers: newExcludedUsers,
+        };
+      });
+
+    updateData({ members: newMembers, constraints: newConstraints });
   };
 
   return (
