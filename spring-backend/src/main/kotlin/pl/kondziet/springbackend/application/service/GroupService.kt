@@ -14,16 +14,18 @@ import java.time.LocalDateTime
 @Service
 class GroupService(val groupRepository: GroupRepository, val drawService: DrawService) {
 
-    fun createGroup(groupRequest: GroupRequest) {
+    fun createGroup(groupRequest: GroupRequest): String {
         val group = groupRequest.toGroup()
 
         val drawResults = drawService.calculateRegularDraw(group)
 
-        groupRepository.save(
+        val savedGroup = groupRepository.save(
             group.copy(
                 draws = listOf(Draw(results = drawResults, completedAt = LocalDateTime.now()))
             )
         )
+
+        return savedGroup.id!!
     }
 
     fun getMembersDraws(groupId: String): List<UserResponse> {

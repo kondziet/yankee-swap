@@ -13,8 +13,8 @@ class GroupController(val groupService: GroupService) {
 
     @PostMapping
     fun createGroup(@Valid @RequestBody groupRequest: GroupRequest): ResponseEntity<Any> {
-        groupService.createGroup(groupRequest)
-        return ResponseEntity.status(HttpStatus.CREATED).build()
+        val createdGroupId = groupService.createGroup(groupRequest)
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdGroupId)
     }
 
     @GetMapping("/{groupId}")
