@@ -1,11 +1,39 @@
-const OwnerDetails = ({ owner, updateData }) => {
+const OwnerDetails = ({ owner, members, updateData }) => {
+  const handleNameChange = (value) => {
+    const oldOwner = owner;
+
+    if (members.filter((member) => member.name).length === 0) {
+      updateData({
+        owner: {
+          name: value,
+        },
+        members: [...members, { name: value }],
+      });
+      return;
+    }
+
+    updateData({
+      owner: {
+        name: value,
+      },
+      members: members.map((member) => {
+        if (member.name === oldOwner.name) {
+          return {
+            name: value,
+          };
+        }
+        return member;
+      }),
+    });
+  };
+
   return (
     <div>
       <h2>Owner Details</h2>
       <input
         type="text"
         value={owner.name}
-        onChange={(e) => updateData({ owner: { name: e.target.value } })}
+        onChange={(e) => handleNameChange(e.target.value)}
       />
     </div>
   );
