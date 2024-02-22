@@ -5,6 +5,7 @@ import MembersDetails from "./MembersDetails";
 import OwnerDetails from "./OwnerDetails";
 import MembersConstraints from "./MembersConstraints";
 import AdditionalDetails from "./AdditionalDetails";
+import publicClientRequest from "../api/ClientRequest";
 
 const INITIAL_DATA = {
   name: "",
@@ -34,8 +35,13 @@ const GroupForm = () => {
 
   console.log(data);
 
-  const handleNext = () => {
-    next();
+  const handleNext = async () => {
+    if (isLastStep) {
+      const response = await publicClientRequest.post("/group", data);
+      console.log(response);
+    } else {
+      next();
+    }
   };
 
   return (
