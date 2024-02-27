@@ -7,7 +7,7 @@ const OwnerDetails = ({ owner, members, updateData }) => {
         owner: {
           name: value,
         },
-        members: [...members, { name: value }],
+        members: [{ name: value }, ...members],
       });
       return;
     }
