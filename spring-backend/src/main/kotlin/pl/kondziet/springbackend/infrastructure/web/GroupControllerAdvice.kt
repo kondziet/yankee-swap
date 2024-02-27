@@ -36,4 +36,16 @@ class GroupControllerAdvice {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response)
     }
+
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleIllegalStateException(exception: IllegalStateException): ResponseEntity<Any> {
+        val response = mapOf(
+            "status" to HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            "error" to HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,
+            "message" to "Internal server error",
+            "details" to exception.message
+        )
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response)
+    }
 }
