@@ -17,7 +17,7 @@ data class Group(
     val constraints: List<Constraint>? = null,
     val allowMutualDrawing: Boolean,
     val yankeeSwapDate: LocalDateTime? = null,
-    val draws: List<Draw>? = null,
+    val draws: List<Draw>,
     @Version
     val version: Long = 0
 ) {
@@ -33,7 +33,7 @@ data class Group(
     fun shouldPerformYankeeSwap(): Boolean {
         return (yankeeSwapDate != null) &&
                 yankeeSwapDate.isBefore(LocalDateTime.now()) &&
-                (draws?.last()?.completedAt?.isBefore(yankeeSwapDate) ?: false)
+                draws.last().completedAt.isBefore(yankeeSwapDate)
     }
 }
 

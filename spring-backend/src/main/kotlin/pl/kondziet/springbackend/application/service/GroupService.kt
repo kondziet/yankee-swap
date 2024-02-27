@@ -35,18 +35,18 @@ class GroupService(val groupRepository: GroupRepository, val drawService: DrawSe
         if (group.shouldPerformYankeeSwap()) {
             val drawResults = drawService.calculateYankeeDraw(group)
             group.copy(
-                draws = group.draws?.plus(Draw(results = drawResults, completedAt = LocalDateTime.now()))
+                draws = group.draws.plus(Draw(results = drawResults, completedAt = LocalDateTime.now()))
             ).let { groupRepository.save(it) }
         }
 
-        return group.draws?.last()?.results?.filter { !it.seen }?.map { it.drawer.toUserResponse() } ?: emptyList()
+        return group.draws.last().results.filter { !it.seen }.map { it.drawer.toUserResponse() }
     }
 
     fun getMemberDraw(groupId: String, userName: String): UserResponse {
         val group = groupRepository.findByIdOrNull(groupId)
             ?: throw NoSuchElementException("Group with id $groupId not found")
 
-        val userResponse = (group.draws?.last()?.results?.find { it.drawer.name == userName }?.drawee?.toUserResponse()
+        val userResponse = (group.draws.last().results.find { it.drawer.name == userName }?.drawee?.toUserResponse()
             ?: throw NoSuchElementException("User with name $userName not found"))
 
         group.copy(

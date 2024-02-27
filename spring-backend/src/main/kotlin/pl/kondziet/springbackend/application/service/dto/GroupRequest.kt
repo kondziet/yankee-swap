@@ -30,6 +30,7 @@ data class GroupRequest(
         allowMutualDrawing = allowMutualDrawing,
         yankeeSwapDate = yankeeSwapCountdownHours?.let {
             LocalDateTime.now().plusHours(it)
-        }
+        },
+        draws = emptyList()
     )
 }

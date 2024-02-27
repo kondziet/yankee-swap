@@ -24,17 +24,17 @@ class DrawService {
 
     fun calculateYankeeDraw(group: Group): List<ResultEntry> {
         val yankeeSwapParticipants =
-            group.draws?.last()?.results?.filter { it.yankeeSwapParticipation }?.map { it.drawer } ?: emptyList()
+            group.draws.last().results.filter { it.yankeeSwapParticipation }.map { it.drawer }
 
         val drawStrategy = if (group.allowMutualDrawing) {
             val splitSubCycles = YankeeSplit<User>().splitSubCycles(
-                group.draws?.last()?.results?.toCycles() ?: emptyList(),
+                group.draws.last().results.toCycles(),
                 yankeeSwapParticipants
             )
             MultipleYankeeDrawStrategy<User>(splitSubCycles ?: emptyList())
         } else {
             val splitCycle = YankeeSplit<User>().splitCycle(
-                group.draws?.last()?.results?.toCycles()?.first() ?: emptyList(),
+                group.draws.last().results.toCycles().first(),
                 yankeeSwapParticipants
             )
             SingleYankeeDrawStrategy(splitCycle ?: emptyList())
