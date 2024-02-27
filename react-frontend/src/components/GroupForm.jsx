@@ -33,8 +33,6 @@ const GroupForm = () => {
       <AdditionalDetails {...data} updateData={updateData} />,
     ]);
 
-  console.log(data);
-
   const handleNext = async () => {
     if (isLastStep) {
       const response = await publicClientRequest.post("/group", data);
