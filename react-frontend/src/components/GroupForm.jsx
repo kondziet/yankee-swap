@@ -45,15 +45,19 @@ const GroupForm = () => {
   };
 
   return (
-    <div>
-      {step}
-      {currentStepIndex + 1} / {steps.length}
-      {!isFirstStep && (
-        <button type="button" onClick={back}>
-          Back
-        </button>
-      )}
-      <button onClick={handleNext}>{isLastStep ? "Submit" : "Next"}</button>
+    <div className="flex h-96 w-4/5 flex-col justify-between rounded-md bg-gray-200 p-4 md:w-1/2 lg:w-1/3 xl:w-1/4">
+      <div className="flex-1">{step}</div>
+      <div className="flex justify-between">
+        {currentStepIndex + 1} / {steps.length}
+        <div className="flex gap-4">
+          {!isFirstStep && (
+            <button type="button" onClick={back}>
+              Back
+            </button>
+          )}
+          <button onClick={handleNext}>{isLastStep ? "Submit" : "Next"}</button>
+        </div>
+      </div>
     </div>
   );
 };
