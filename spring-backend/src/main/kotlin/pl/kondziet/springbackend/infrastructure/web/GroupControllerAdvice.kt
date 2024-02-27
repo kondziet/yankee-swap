@@ -46,6 +46,6 @@ class GroupControllerAdvice {
             "details" to exception.message
         )
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response)
+        return ResponseEntity.badRequest().body(response)
     }
 }
