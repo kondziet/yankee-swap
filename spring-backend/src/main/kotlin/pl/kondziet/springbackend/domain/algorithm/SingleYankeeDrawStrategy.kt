@@ -2,11 +2,11 @@ package pl.kondziet.springbackend.domain.algorithm
 
 import java.util.Collections
 
-class SingleYankeeDrawStrategy<T>(private val cycles: List<List<T>>) : CycleFindingStrategy<T> {
+class SingleYankeeDrawStrategy<T>(private val splitCycles: List<List<T>>) : CycleFindingStrategy<T> {
     override fun findCycles(adjacency: Map<T, List<T>>): List<List<T>> {
         val copiedAdjacency = HashMap<T, List<T>>(adjacency)
 
-        cycles.forEach { cycle ->
+        splitCycles.forEach { cycle ->
             for (i in 0 until cycle.size - 1) {
                 val current = cycle[i]
                 val next = cycle[i + 1]
@@ -14,10 +14,10 @@ class SingleYankeeDrawStrategy<T>(private val cycles: List<List<T>>) : CycleFind
             }
         }
 
-        val previousDraws = findPreviousDraws(cycles)
+        val previousDraws = findPreviousDraws(splitCycles)
 
-        for ((index, cycle) in cycles.withIndex()) {
-            val remainingCycles = cycles.filterIndexed { i, _ -> i != index }
+        for ((index, cycle) in splitCycles.withIndex()) {
+            val remainingCycles = splitCycles.filterIndexed { i, _ -> i != index }
 
             val drawer = cycle.last()
             val neighbors = remainingCycles.map { it.first() }
