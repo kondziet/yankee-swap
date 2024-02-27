@@ -28,8 +28,9 @@ const MemberConstraints = ({
         !checkedMembers.includes(member);
 
       return (
-        <div key={member.name}>
+        <div key={member.name} className="mb-2 flex items-center">
           <input
+            className="mr-2"
             type="checkbox"
             checked={isChecked}
             disabled={isDisabled}

@@ -28,13 +28,17 @@ const OwnerDetails = ({ owner, members, updateData }) => {
   };
 
   return (
-    <div>
-      <h2>Owner Details</h2>
-      <input
-        type="text"
-        value={owner.name}
-        onChange={(e) => handleNameChange(e.target.value)}
-      />
+    <div className="bg-gray-100 p-4 rounded-md">
+      <h2 className="text-xl font-bold mb-4">Owner Details</h2>
+      <div className="flex items-center">
+        <label className="text-gray-600 mr-2">Owner Name:</label>
+        <input
+          type="text"
+          value={owner.name}
+          onChange={(e) => handleNameChange(e.target.value)}
+          className="border rounded-md p-2"
+        />
+      </div>
     </div>
   );
 };

@@ -27,10 +27,14 @@ const MembersConstraints = ({ members, constraints, updateData }) => {
   };
 
   return (
-    <div>
+    <div className="rounded-md bg-gray-100 p-4 shadow-md">
       {members.map((member) => {
         return (
-          <div key={member.name} onClick={() => handleMemberChange(member)}>
+          <div
+            className="mb-2 cursor-pointer rounded-md bg-white p-2 hover:bg-gray-200"
+            key={member.name}
+            onClick={() => handleMemberChange(member)}
+          >
             {member.name}
           </div>
         );

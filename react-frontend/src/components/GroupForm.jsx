@@ -45,9 +45,9 @@ const GroupForm = () => {
   };
 
   return (
-    <div className="flex h-96 w-4/5 flex-col justify-between rounded-md bg-gray-200 p-4 md:w-1/2 lg:w-1/3 xl:w-1/4">
+    <div className="flex h-96 w-4/5 flex-col justify-between rounded-md shadow-md bg-gray-200 p-4 md:w-1/2 lg:w-1/3 xl:w-1/4">
       <div className="flex-1">{step}</div>
-      <div className="flex justify-between">
+      <div className="flex justify-between text-md font-bold">
         {currentStepIndex + 1} / {steps.length}
         <div className="flex gap-4">
           {!isFirstStep && (
