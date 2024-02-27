@@ -1,10 +1,7 @@
 package pl.kondziet.springbackend.application.service
 
 import org.springframework.stereotype.Service
-import pl.kondziet.springbackend.domain.algorithm.MultipleRegularDrawStrategy
-import pl.kondziet.springbackend.domain.algorithm.SingleRegularDrawStrategy
-import pl.kondziet.springbackend.domain.algorithm.SingleYankeeDrawStrategy
-import pl.kondziet.springbackend.domain.algorithm.YankeeSplit
+import pl.kondziet.springbackend.domain.algorithm.*
 import pl.kondziet.springbackend.domain.model.*
 
 @Service
@@ -26,7 +23,28 @@ class DrawService {
     }
 
     fun calculateYankeeDraw(group: Group): List<ResultEntry> {
+        val yankeeSwapParticipants =
+            group.draws?.last()?.results?.filter { it.yankeeSwapParticipation }?.map { it.drawer } ?: emptyList()
 
-        return listOf()
+        val drawStrategy = if (group.allowMutualDrawing) {
+            val splitSubCycles = YankeeSplit<User>().splitSubCycles(
+                group.draws?.last()?.results?.toCycles() ?: emptyList(),
+                yankeeSwapParticipants
+            )
+            MultipleYankeeDrawStrategy<User>(splitSubCycles ?: emptyList())
+        } else {
+            val splitCycle = YankeeSplit<User>().splitCycle(
+                group.draws?.last()?.results?.toCycles()?.first() ?: emptyList(),
+                yankeeSwapParticipants
+            )
+            SingleYankeeDrawStrategy(splitCycle ?: emptyList())
+        }
+
+        val cycles = group.toGraph().findCycles(drawStrategy)
+        if (cycles.first().isEmpty() || cycles.isEmpty()) {
+            throw IllegalStateException("No cycles found in the graph")
+        }
+
+        return cycles.toResultEntries()
     }
 }
