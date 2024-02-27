@@ -18,7 +18,7 @@ class DrawService {
         }
 
         val cycles = group.toGraph().findCycles(drawStrategy)
-        if (cycles.isEmpty()) {
+        if (cycles.first().isEmpty() || cycles.isEmpty()) {
             throw IllegalStateException("No cycles found in the graph")
         }
 
