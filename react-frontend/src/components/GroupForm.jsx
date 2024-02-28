@@ -49,7 +49,7 @@ const GroupForm = () => {
   };
 
   return (
-    <div className="flex min-h-96 w-4/5 flex-col justify-between rounded-md bg-gray-200 p-4 shadow-md md:w-1/2 lg:w-1/3 xl:w-1/4">
+    <div className="flex min-h-96 w-4/5 flex-col justify-between rounded-md bg-white p-4 shadow-md md:w-1/2 lg:w-1/3 xl:w-1/4">
       {!groupId ? (
         <div className="flex flex-1 flex-col">
           <div className="flex-1">{step}</div>
