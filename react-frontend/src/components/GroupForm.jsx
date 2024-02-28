@@ -19,6 +19,7 @@ const INITIAL_DATA = {
 };
 
 const GroupForm = () => {
+  const [groupId, setGroupId] = useState();
   const [data, setData] = useState(INITIAL_DATA);
   const updateData = (fields) => {
     setData((prev) => ({ ...prev, ...fields }));
@@ -36,26 +37,41 @@ const GroupForm = () => {
   const handleNext = async () => {
     if (isLastStep) {
       const response = await publicClientRequest.post("/group", data);
-      console.log(response);
+      setGroupId(response.data);
     } else {
       next();
     }
   };
 
   return (
-    <div className="flex min-h-96 w-4/5 flex-col justify-between rounded-md shadow-md bg-gray-200 p-4 md:w-1/2 lg:w-1/3 xl:w-1/4">
-      <div className="flex-1">{step}</div>
-      <div className="flex justify-between text-md font-bold">
-        {currentStepIndex + 1} / {steps.length}
-        <div className="flex gap-4">
-          {!isFirstStep && (
-            <button type="button" onClick={back}>
-              Back
-            </button>
-          )}
-          <button onClick={handleNext}>{isLastStep ? "Submit" : "Next"}</button>
+    <div className="flex min-h-96 w-4/5 flex-col justify-between rounded-md bg-gray-200 p-4 shadow-md md:w-1/2 lg:w-1/3 xl:w-1/4">
+      {!groupId ? (
+        <div className="flex flex-1 flex-col">
+          <div className="flex-1">{step}</div>
+          <div className="text-md flex justify-between font-bold">
+            {currentStepIndex + 1} / {steps.length}
+            <div className="flex gap-4">
+              {!isFirstStep && (
+                <button type="button" onClick={back}>
+                  Back
+                </button>
+              )}
+              <button onClick={handleNext}>
+                {isLastStep ? "Submit" : "Next"}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+          <div className="mb-4 text-4xl font-bold text-teal-600">
+            🎉 Group Created 🎉
+          </div>
+          <div className="rounded-md bg-green-100 p-4 text-xl font-bold text-green-800 shadow-md">
+            Group ID: {groupId}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
