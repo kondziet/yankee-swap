@@ -65,4 +65,30 @@ class GroupService(val groupRepository: GroupRepository, val drawService: DrawSe
 
         return userResponse
     }
+
+    fun toggleYankeeSwapParticipation(groupId: String, userName: String) {
+        val group = groupRepository.findByIdOrNull(groupId)
+            ?: throw NoSuchElementException("Group with id $groupId not found")
+
+        val user = group.members.find { it.name == userName }
+            ?: throw NoSuchElementException("User with name $userName not found")
+
+        group.copy(
+            draws = group.draws.map { draw ->
+                if (draw == group.draws.last()) {
+                    draw.copy(
+                        results = draw.results.map { result ->
+                            if (result.drawer.name == userName) {
+                                result.copy(yankeeSwapParticipation = !result.yankeeSwapParticipation)
+                            } else {
+                                result
+                            }
+                        }
+                    )
+                } else {
+                    draw
+                }
+            }
+        ).let { groupRepository.save(it) }
+    }
 }

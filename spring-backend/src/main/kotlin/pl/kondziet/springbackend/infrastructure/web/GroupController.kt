@@ -26,4 +26,9 @@ class GroupController(val groupService: GroupService) {
     fun getMemberDraw(@PathVariable groupId: String, @PathVariable userName: String): ResponseEntity<Any> {
         return ResponseEntity.ok(groupService.getMemberDraw(groupId, userName))
     }
+
+    @PostMapping("/{groupId}/{userName}")
+    fun toggleYankeeSwapParticipation(@PathVariable groupId: String, @PathVariable userName: String): ResponseEntity<Any> {
+        return ResponseEntity.ok(groupService.toggleYankeeSwapParticipation(groupId, userName))
+    }
 }
