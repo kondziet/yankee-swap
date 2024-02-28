@@ -20,6 +20,7 @@ const INITIAL_DATA = {
 
 const GroupForm = () => {
   const [groupId, setGroupId] = useState();
+  const [error, setError] = useState("");
   const [data, setData] = useState(INITIAL_DATA);
   const updateData = (fields) => {
     setData((prev) => ({ ...prev, ...fields }));
@@ -36,8 +37,12 @@ const GroupForm = () => {
 
   const handleNext = async () => {
     if (isLastStep) {
-      const response = await publicClientRequest.post("/group", data);
-      setGroupId(response.data);
+      try {
+        const response = await publicClientRequest.post("/group", data);
+        setGroupId(response.data);
+      } catch (error) {
+        setError(error.response.data.details.join('\n'));
+      }
     } else {
       next();
     }
@@ -70,6 +75,11 @@ const GroupForm = () => {
           <div className="rounded-md bg-green-100 p-4 text-xl font-bold text-green-800 shadow-md">
             Group ID: {groupId}
           </div>
+        </div>
+      )}
+      {error && (
+        <div className="rounded-md bg-red-100 p-4 text-xl font-bold text-red-800 shadow-md">
+          {error}
         </div>
       )}
     </div>
