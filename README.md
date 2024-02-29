@@ -25,9 +25,9 @@ However, what happens when we introduce constraints on the drawn pairs? For exam
 The algorithm's operation remains fundamentally the same, as each node in the graph must have at least one edge, and the graph is undirected, allowing for a solution to be found.
 
 Problems arise, however, when considering a directed graph with specific drawing constraints, such as one-sided constraints. For example, Alice can draw Bob, but Bob cannot draw Alice. In such a situation, the fact that each node has at least one edge is not sufficient. An illustrative graph depicts a scenario where finding a Hamiltonian cycle becomes impossible.
-![sub cycles](https://github.com/kondziet/yankee-swap/assets/86203980/09f10d34-25ef-4a80-93ba-c46975f49bcb)
+![directed graph](https://github.com/kondziet/yankee-swap/assets/86203980/92044382-e8bd-4cea-bdad-ebd44198c06b)
 
 In the case of a directed graph with one-sided constraints, it is necessary to create an algorithm that explores the space of potential solutions, considering not only single cycles but also the possibility of multiple subcycles. The presented solution is correct, but unlike the previous algorithm, it allows for situations where two individuals have drawn each other.
-
+![sub cycles](https://github.com/kondziet/yankee-swap/assets/86203980/09f10d34-25ef-4a80-93ba-c46975f49bcb)
 
 ## How to install
